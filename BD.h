@@ -7,12 +7,6 @@
 
 #define URL "bd.db"
 
-/**
- * Clase que gestiona todo lo
- * relacionado con la base de
- * datos.
- * */
-
 namespace bbdd {
     void cargarBD();
 
