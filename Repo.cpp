@@ -57,24 +57,44 @@ vector<Commit*>* Repo::getCommits() {
     return &commits;
 }
 
-char* Repo::getCarpetaRepo() {
+/*void Repo::getCarpetaRepo(char *b) {
     //char *r = getDirectorioPadre(aChar(this->ruta));
     char *r = new char[ruta.size()+1];
     aChar(r, this->ruta);
-    char * p = new char[getPosUltimaBarra(r)];
+    char *p = new char[getPosUltimaBarra(r)];
     getDirectorioPadre(p, r);
     strcat(p, "/repo");
-    return p;
-    //strcpy(b, p);
+    strcpy(b, p);
+}*/
+
+string Repo::getCarpetaRepo() {
+    char *r = new char[ruta.size()+1];
+    aChar(r, ruta);
+    int p = getPosUltimaBarra(r);
+    string s = ruta.substr(0, p);
+    string n("/repo");
+    s.append(n);
+    return s;
 }
 
 void Repo::crearCarpetaCommits() {
-    crearCarpeta(getCarpetaRepo());
+    string a = getCarpetaRepo();
+    char *b = new char[a.size()+1];
+    aChar(b, a);
+    crearCarpeta(b);
 }
 
 void Repo::commit() {
+    string s = getCarpetaRepo();
     std::stringstream ss;
-    char *p = getCarpetaRepo();
-    ss << p;
-    cout << ss.str();
+    ss << s;
+    ss << "/commit_";
+    ss << commits.size();
+    string r = string(ss.str());
+    char *a = new char[r.size()+1];
+    aChar(a, r);
+    crearCarpeta(a);
+    char *b = new char[ruta.size()+1];
+    aChar(b, ruta);
+    copiaCarpeta(b,a,0);
 }

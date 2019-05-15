@@ -29,7 +29,8 @@ public:
     vector<Commit*>* getCommits();
 
     void crearCarpetaCommits();
-    char* getCarpetaRepo();
+    //void getCarpetaRepo(char *b);
+    string getCarpetaRepo();
     void commit();
 };
 
