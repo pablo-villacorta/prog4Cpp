@@ -5,8 +5,6 @@
 #include "Usuario.h"
 #include "Repo.h"
 
-#define URL "bd.db"
-
 namespace bbdd {
     void cargarBD();
 

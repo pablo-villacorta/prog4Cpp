@@ -17,6 +17,8 @@ int copiaCarpeta(char *directorioOrigen, char *directorioDestino, const int root
 
 //para que este metodo funcione primero hay que reservar
 //strlen(origen)+1 elementos para destino
-void copiarString(char *destino, const char *origen);
+void aChar(char *dest, string origen);
+int getPosUltimaBarra(char *ruta);
+void getDirectorioPadre(char *dest, char *ruta);
 
 #endif //PROG4CPP_MAIN_H

@@ -27,6 +27,10 @@ public:
     vector<Usuario*>* getColabs();
     void addCommit(Commit *commit);
     vector<Commit*>* getCommits();
+
+    void crearCarpetaCommits();
+    char* getCarpetaRepo();
+    void commit();
 };
 
 //Repo* nuevoRepo();

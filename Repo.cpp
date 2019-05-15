@@ -1,10 +1,15 @@
 #include "Repo.h"
 #include <string.h>
 #include <iostream>
+#include <sstream>
 #include "Usuario.h"
 #include "Commit.h"
 #include "Main.h"
 #include "BD.h"
+
+extern "C" {
+#include "manejo_archivos.h"
+}
 
 using namespace std;
 
@@ -50,4 +55,26 @@ vector<Usuario*>* Repo::getColabs() {
 
 vector<Commit*>* Repo::getCommits() {
     return &commits;
+}
+
+char* Repo::getCarpetaRepo() {
+    //char *r = getDirectorioPadre(aChar(this->ruta));
+    char *r = new char[ruta.size()+1];
+    aChar(r, this->ruta);
+    char * p = new char[getPosUltimaBarra(r)];
+    getDirectorioPadre(p, r);
+    strcat(p, "/repo");
+    return p;
+    //strcpy(b, p);
+}
+
+void Repo::crearCarpetaCommits() {
+    crearCarpeta(getCarpetaRepo());
+}
+
+void Repo::commit() {
+    std::stringstream ss;
+    char *p = getCarpetaRepo();
+    ss << p;
+    cout << ss.str();
 }

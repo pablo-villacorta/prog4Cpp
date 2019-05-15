@@ -6,9 +6,12 @@
 #include <vector>
 #include "Repo.h"
 #include <string.h>
+#include <sstream>
 #include <stdio.h>
 #include <stdlib.h>
 #include "Menu.h"
+
+#define URL "C:/Users/pablo/Desktop/prog4_bd/hola"
 
 extern "C"{
     #include "manejo_archivos.h"
@@ -26,16 +29,44 @@ namespace controlador {
 using namespace controlador;
 
 int main() {
-    cargarBD();
-    //Probando los commits
+    Usuario *u = new Usuario("juan", "dos", "santos", "a");
+    Repo *r = new Repo("miRepo", "descripcion", URL, u);
+    r->commit();
+
+
+
     return 0;
 }
 
-void copiarString(char *destino, const char *origen) {
-    int len = strlen(origen)+1;
+
+
+
+void aChar(char *dest, string origen) {
+    int len = origen.size();
+    //char *d = new char[len+1];
     for(int i = 0; i < len; i++) {
-        destino[i] = origen[i];
+        dest[i] = origen[i];
     }
+    dest[len] = '\0';
+}
+
+int getPosUltimaBarra(char *ruta) {
+    int pos = 0;
+    for(int i = strlen(ruta); i >= 0; i--) {
+        if(ruta[i] == '/') {
+            pos = i;
+            break;
+        }
+    }
+    return pos;
+}
+
+void getDirectorioPadre(char *dest, char *ruta) {
+    int pos = getPosUltimaBarra(ruta);
+    for(int i = 0; i < pos; i++) {
+        dest[i] = ruta[i];
+    }
+    dest[pos] = '\0';
 }
 
 int copiaCarpeta(char *directorioOrigen, char *directorioDestino, const int root) {
