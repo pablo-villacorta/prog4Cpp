@@ -13,6 +13,7 @@ Repo::Repo(string nombre, string desc, string ruta, Usuario *duenyo) {
     this->descripcion= string(desc);
     this->ruta = string(ruta);
     this->duenyo = duenyo;
+    this->duenyo->addRepoPropio(this);
 }
 
 Repo::~Repo() {

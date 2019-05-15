@@ -12,8 +12,8 @@ namespace controlador {
 }
 
 void menu();
-void iniciarSesion();
-void registrarse();
+
+int copiaCarpeta(char *directorioOrigen, char *directorioDestino, const int root);
 
 //para que este metodo funcione primero hay que reservar
 //strlen(origen)+1 elementos para destino

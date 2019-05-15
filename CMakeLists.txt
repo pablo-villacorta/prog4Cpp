@@ -3,4 +3,4 @@ project(prog4Cpp)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(prog4Cpp main.cpp BD.cpp Usuario.cpp Repo.cpp Commit.cpp)
+add_executable(prog4Cpp main.cpp BD.cpp Usuario.cpp Repo.cpp Commit.cpp Menu.cpp graficos.o manejo_archivos.o)

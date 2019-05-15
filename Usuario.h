@@ -24,9 +24,10 @@ public:
     string getNombre() const;
     string getApellido() const;
     string getContra() const;
-    void addRepoPropio(Repo *repo) {
-        reposPropios.push_back(repo);
-    }
+    void addRepoPropio(Repo *repo);
+    bool equals(Usuario *u) const;
+
+    void listarReposRelacionados() const;
 };
 
 
