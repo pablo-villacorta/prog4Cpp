@@ -31,8 +31,10 @@ public:
     void crearCarpetaCommits();
     //void getCarpetaRepo(char *b);
     string getCarpetaRepo();
-    void commit();
+    void commit(string descripcion);
 };
+
+
 
 //Repo* nuevoRepo();
 

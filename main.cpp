@@ -29,11 +29,7 @@ namespace controlador {
 using namespace controlador;
 
 int main() {
-    Usuario *u = new Usuario("juan", "dos", "santos", "a");
-    Repo *r = new Repo("miRepo", "descripcion", URL, u);
-    r->commit();
-
-
+    cargarBD();
 
     return 0;
 }
@@ -104,9 +100,6 @@ int copiaCarpeta(char *directorioOrigen, char *directorioDestino, const int root
             if (!dir2) {
                 copiarArchivo(path, pathDest);
             } else {
-
-                cout << path << endl;
-                cout << pathDest << endl;
                 crearCarpeta(pathDest);
                 copiaCarpeta(path, pathDest, root + 1);
             }

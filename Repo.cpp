@@ -6,6 +6,7 @@
 #include "Commit.h"
 #include "Main.h"
 #include "BD.h"
+#include <ctime>
 
 extern "C" {
 #include "manejo_archivos.h"
@@ -57,16 +58,6 @@ vector<Commit*>* Repo::getCommits() {
     return &commits;
 }
 
-/*void Repo::getCarpetaRepo(char *b) {
-    //char *r = getDirectorioPadre(aChar(this->ruta));
-    char *r = new char[ruta.size()+1];
-    aChar(r, this->ruta);
-    char *p = new char[getPosUltimaBarra(r)];
-    getDirectorioPadre(p, r);
-    strcat(p, "/repo");
-    strcpy(b, p);
-}*/
-
 string Repo::getCarpetaRepo() {
     char *r = new char[ruta.size()+1];
     aChar(r, ruta);
@@ -82,9 +73,10 @@ void Repo::crearCarpetaCommits() {
     char *b = new char[a.size()+1];
     aChar(b, a);
     crearCarpeta(b);
+    delete[] b;
 }
 
-void Repo::commit() {
+void Repo::commit(string descripcion) {
     string s = getCarpetaRepo();
     std::stringstream ss;
     ss << s;
@@ -97,4 +89,13 @@ void Repo::commit() {
     char *b = new char[ruta.size()+1];
     aChar(b, ruta);
     copiaCarpeta(b,a,0);
+
+    time_t t;
+    t = time(NULL);
+    bbdd::registrarCommit(descripcion, t, controlador::usuarioActual, this);
+    Commit *c = new Commit(descripcion, t, controlador::usuarioActual, this);
+    this->addCommit(c);
+
+    delete[] a;
+    delete[] b;
 }
