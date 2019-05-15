@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "Menu.h"
+
 extern "C"{
     #include "manejo_archivos.h"
     #include "graficos.h"
