@@ -6,6 +6,7 @@
 #include <string>
 #include "BD.h"
 #include "main.h"
+#include <sstream>
 
 extern "C"{
 #include "manejo_archivos.h"
@@ -153,12 +154,19 @@ namespace menu_ {
     }
 
     void crearRepoDuplicado(){
-        string nom;
+       string nom;
 
         cout << "Introduce el nombre del nuevo repositorio: " << endl;
         cin >> nom;
 
+        cout << controlador::repoActual->getRuta() << endl;
+
         crearNuevoRepo(nom, controlador::repoActual->getDescripcion(), controlador::repoActual->getRuta());
+
+        char *origen = new char[(controlador::repoActual->getRuta()).size()+1];
+        aChar(origen, controlador::repoActual->getRuta());
+
+        copiaCarpeta(origen, origen, 0);
     }
 
     void menuMisRepositorios() {
