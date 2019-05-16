@@ -79,7 +79,8 @@ namespace menu_ {
             misRepositorios();
         } else if (c == '2') {
             //Crear nuevo repositorio: el usuario introducirá el nombre del repositorio y éste se añadirá a su lista de repositorios
-            gestionRepos();
+            menu_::crearNuevoRepo();
+
         } else if (c == '3') {
             //Cierra sesión y vuelve al menú principal
             inicio();

@@ -10,6 +10,8 @@ namespace menu_ {
 
     void gestionRepos();
 
+    void crearNuevoRepo();
+
     void misRepositorios();
 
     void historialVersiones();
