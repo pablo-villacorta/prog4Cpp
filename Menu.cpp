@@ -73,6 +73,7 @@ namespace menu_ {
             cout << "Introduzca la ruta: " << endl;
             cin >> ruta;
             crearNuevoRepo(nombre, descripcion, ruta);
+            cout << "Repositorio creado" << endl;
             gestionRepos();
         }
     }
@@ -130,11 +131,16 @@ namespace menu_ {
             for(int i = 0; i < rep.size(); i++) {
                 cout << i << ": " << rep[i]->getNombre() << " (de " << rep[i]->getDuenyo()->getNickname() << ")" << endl;
             }
+            cout << rep.size() << ": Atras" << endl;
             cin >> res;
             opcion = stoi(res);
-        } while(opcion < 0 || opcion >= rep.size());
-        controlador::repoActual = rep[opcion];
-        menuMisRepositorios();
+        } while(opcion < 0 || opcion >= rep.size() +1 );
+        if(opcion == rep.size()) {
+            gestionRepos();
+        } else {
+            controlador::repoActual = rep[opcion];
+            menuMisRepositorios();
+        }
     }
 
     void hacerCommit(){
@@ -173,7 +179,7 @@ namespace menu_ {
         } else if (c == '2') {
             //Hacer commit: el sistema pedirá al usuario que seleccione qué archivos quiere incluir en el commit y realizará el commit
             hacerCommit();
-            misRepositorios();
+            menuMisRepositorios();
         } else if (c == '3') {
             //Duplicar: el sistema creará una copia del repositorio en el sistema de archivos del usuario, pidiendo antes al usuario que introduzca un nombre
             //que no esté en uso para dicho repositorio
