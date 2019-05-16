@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <string>
 #include "BD.h"
+#include "main.h"
+
 extern "C"{
     #include "manejo_archivos.h"
     #include "graficos.h"
@@ -26,13 +28,13 @@ namespace menu_ {
         cin >> con;
 
       if( bbdd::iniciarSesion(nom, con) == 0){
+          Usuario *u = bbdd::getUsuario(nom);
+          controlador::usuarioActual = u;
           return true;
       } else {
           cout << "Los datos introducido no son correctos" << endl;
           return false;
       }
-
-
     }
 
     bool registrar() {
@@ -47,8 +49,10 @@ namespace menu_ {
         cout << "Introduzca su contrasenya: " << endl;
         cin >> contra;
 
-        cout << bbdd::registrarUsuario(nomUsuario, nombre, apellido, contra) << endl;
+        //cout << bbdd::registrarUsuario(nomUsuario, nombre, apellido, contra) << endl;
         if(bbdd::registrarUsuario(nomUsuario, nombre, apellido, contra) == 0){
+            Usuario *u = new Usuario(nomUsuario, nombre, apellido, contra);
+            controlador::usuarios.push_back(u);
             return true;
         } else {
             cout << "Nombre de usuario no valido" << endl;

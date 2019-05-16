@@ -21,4 +21,6 @@ void aChar(char *dest, string origen);
 int getPosUltimaBarra(char *ruta);
 void getDirectorioPadre(char *dest, char *ruta);
 
+void crearNuevoRepo(string nombre, string descripcion, string ruta);
+
 #endif //PROG4CPP_MAIN_H

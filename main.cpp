@@ -13,7 +13,6 @@
 
 #define URL "C:/Users/pablo/Desktop/prog4_bd/hola"
 
-//comentario
 extern "C"{
     #include "manejo_archivos.h"
     #include "graficos.h"
@@ -32,12 +31,17 @@ using namespace controlador;
 int main() {
     cargarBD();
 
-
+    menu_::inicio();
     return 0;
 }
 
-
-
+void crearNuevoRepo(string nombre, string descripcion, string ruta) {
+    Repo *r = new Repo(nombre, descripcion, ruta, usuarioActual);
+    repos.push_back(r);
+    usuarioActual->addRepoPropio(r);
+    r->crearCarpetaCommits();
+    bbdd::registrarRepositorio(nombre, descripcion, ruta, usuarioActual);
+}
 
 void aChar(char *dest, string origen) {
     int len = origen.size();

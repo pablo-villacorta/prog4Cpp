@@ -135,6 +135,8 @@ namespace bbdd {
         }
     }
 
+    //@return 0 si todo va bien
+    //@return 1 si hay algun error
     int iniciarSesion(string nick, string contra) {
         for(int i = 0; i < controlador::usuarios.size(); i++) {
             if(nick.compare(controlador::usuarios[i]->getNickname()) == 0) {
