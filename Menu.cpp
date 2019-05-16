@@ -60,6 +60,18 @@ namespace menu_ {
         }
     }
 
+    void nuevoRepo(){
+        string nombre, descripcion, ruta;
+        cout << "Introduzca el nombre del repositorio: " << endl;
+        cin >> nombre;
+        cout << "Introduzca la descripcion del repositorio: " << endl;
+        cin >> descripcion;
+        cout << "Introduzca la ruta: " << endl;
+        cin >> ruta;
+        crearNuevoRepo(nombre, descripcion, ruta);
+
+    }
+
     void gestionRepos() {
         char c;
         do {
@@ -79,7 +91,8 @@ namespace menu_ {
             misRepositorios();
         } else if (c == '2') {
             //Crear nuevo repositorio: el usuario introducirá el nombre del repositorio y éste se añadirá a su lista de repositorios
-            menu_::crearNuevoRepo();
+
+            menu_::nuevoRepo();
 
         } else if (c == '3') {
             //Cierra sesión y vuelve al menú principal
