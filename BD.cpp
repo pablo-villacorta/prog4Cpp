@@ -30,9 +30,9 @@ namespace bbdd {
                     } else if(i == 1) {
                         nombre = string(substr);
                     } else if(i == 2) {
-                        apellido = string(substr);
-                    } else {
                         contra = string(substr);
+                    } else {
+                        apellido = string(substr);
                     }
                     i++;
                 }
