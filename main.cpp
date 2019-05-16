@@ -33,11 +33,6 @@ using namespace controlador;
 
 int main() {
     cargarBD();
-
-    //Usuario *u = new Usuario("jope", "jope", "jope", "jope");
-    //Repo *r = new Repo("repaso", "akaka", "kaka", u);
-    //bbdd::registrarColaborador(u, r);
-
     menu_::inicio();
     return 0;
 }

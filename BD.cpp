@@ -93,10 +93,9 @@ namespace bbdd {
                     }
                     i++;
                 }
-                //cout << repo << endl;
                 Usuario *u = getUsuario(nick);
                 Repo *r = getRepo(repo);
-                //r->addColaborador(u);
+                r->addColaborador(u);
             }
             t.close();
         }
@@ -199,7 +198,7 @@ namespace bbdd {
 
     int registrarColaborador(Usuario *autor, Repo *repo) {
         ofstream t;
-        t.open("colab.csv", ios::app);
+        t.open(T_COLAB, ios::app);
         t << autor->getNickname() << "," << repo->getNombre() << "\n";
         t.close();
         return 0;
