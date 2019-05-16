@@ -6,6 +6,8 @@ namespace menu_ {
 
     bool inicioSesion();
 
+    bool registrar();
+
     void gestionRepos();
 
     void misRepositorios();

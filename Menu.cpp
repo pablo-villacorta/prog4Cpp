@@ -3,6 +3,8 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string>
+#include "BD.h"
 extern "C"{
     #include "manejo_archivos.h"
     #include "graficos.h"
@@ -15,29 +17,43 @@ namespace menu_ {
  * Devuelve true si el inicio de sesión está bien hecho
  * */
     bool inicioSesion() {
-        bool b = true;
+        string nom, con;
         cout << "Nombre de usuario: " << endl; //Conseguir nombre de usuario y comprobar en la BD
+        //getline(cin, nom);
+        cin >> nom;
         cout << "Contrasenya: " << endl; //Conseguir contraseña y comprobar en la BD
-        /**
-         * Hacer atributos nombre y contraseña??
-         * */
-        if (b == false) {
-            char c;
-            cout << "Error en el inicio de sesion, ¿desea volver a intentarlo?" << endl;
-            do {
-                cout << "1. Si" << endl;
-                cout << "2. No" << endl;
-                cin.get();
-                cin.get(c);
-            } while (c != '1' && c != '2');
+        //getline(cin, con);
+        cin >> con;
 
-            if (c == '1') {
-                inicioSesion();
-            } else {
-                b = false;
-            }
+      if( bbdd::iniciarSesion(nom, con) == 0){
+          return true;
+      } else {
+          cout << "Los datos introducido no son correctos" << endl;
+          return false;
+      }
+
+
+    }
+
+    bool registrar() {
+        //string nick, string nombre, string apellido, string contra
+        string nomUsuario, nombre, apellido, contra;
+        cout << "Introduzca su nombre: " << endl;
+        cin >> nombre;
+        cout << "Introduzca su apellido: " << endl;
+        cin >> apellido;
+        cout << "Introduzca su nombre de usuario: " << endl;
+        cin >> nomUsuario;
+        cout << "Introduzca su contrasenya: " << endl;
+        cin >> contra;
+
+        cout << bbdd::registrarUsuario(nomUsuario, nombre, apellido, contra) << endl;
+        if(bbdd::registrarUsuario(nomUsuario, nombre, apellido, contra) == 0){
+            return true;
+        } else {
+            cout << "Nombre de usuario no valido" << endl;
+            return false;
         }
-        return b;
     }
 
     void gestionRepos() {
@@ -282,6 +298,7 @@ namespace menu_ {
             }
         } else if (c == '2') {
             //Registro de un nuevo usuario
+            registrar();
             inicio();
         } else {
             //Salir del programa
