@@ -199,7 +199,7 @@ namespace bbdd {
 
     int registrarColaborador(Usuario *autor, Repo *repo) {
         ofstream t;
-        t.open(T_COLAB, ios::app);
+        t.open("colab.csv", ios::app);
         t << autor->getNickname() << "," << repo->getNombre() << "\n";
         t.close();
         return 0;

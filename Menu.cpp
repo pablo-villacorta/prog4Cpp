@@ -110,8 +110,6 @@ namespace menu_ {
 
     void estadisticas();
 
-    void historialVersiones();
-
     void opciones();
 
     void misRepositorios() {
@@ -154,19 +152,50 @@ namespace menu_ {
     }
 
     void crearRepoDuplicado(){
-       string nom;
+        string nom, ruta;
 
-        cout << "Introduce el nombre del nuevo repositorio: " << endl;
+        cout << "Introduce el nombre con el que se quieres que guarde el duplicado: " << endl;
         cin >> nom;
+        cout << "Introduce la ruta donde quieres que se guarde el repositorio duplicado: " << endl;
+        cin >> ruta;
 
-        cout << controlador::repoActual->getRuta() << endl;
+        string fin;
+        char *r = new char[controlador::repoActual->getRuta().size()+1];
+        aChar(r, controlador::repoActual->getRuta());
+        int p = getPosUltimaBarra(r);
+        fin = controlador::repoActual->getRuta().substr(p);
 
-        crearNuevoRepo(nom, controlador::repoActual->getDescripcion(), controlador::repoActual->getRuta());
+        ruta.append(fin);
+        char *a = new char[ruta.size()+1];
+        aChar(a, ruta);
+        crearCarpeta(a);
+        copiaCarpeta(r, a, 0);
 
-        char *origen = new char[(controlador::repoActual->getRuta()).size()+1];
-        aChar(origen, controlador::repoActual->getRuta());
+        Repo *n = crearNuevoRepo(nom, controlador::repoActual->getDescripcion(), ruta);
+        //copiar en BD+objetos colaboradores y commits
+        //copiar colaboradores
+        for(int i = 0; i < controlador::repoActual->getColabs()->size(); i++) {
+            Usuario *u = controlador::repoActual->getColabs()->at(i);
+            n->addColaborador(u);
+            bbdd::registrarColaborador(u, n);
+        }
+        //copiar registro de commits
+        for(int i = 0; i < controlador::repoActual->getCommits()->size(); i++) {
+            Commit *c = new Commit(controlador::repoActual->getCommits()->at(i), n);
+            n->addCommit(c);
+            bbdd::registrarCommit(c->getDescripcion(), c->getFecha(), c->getAutor(), c->getRepo());
+        }
 
-        copiaCarpeta(origen, origen, 0);
+        //copiar carpeta repo
+        string repoOriginal, repoDestino;
+        repoOriginal = controlador::repoActual->getCarpetaRepo();
+        repoDestino = n->getCarpetaRepo();
+        char *rO, *rD;
+        rO = new char[repoOriginal.size()+1];
+        rD = new char[repoDestino.size()+1];
+        aChar(rO, repoOriginal);
+        aChar(rD, repoDestino);
+        copiaCarpeta(rO, rD, 0);
     }
 
     void listarColaborador(){
@@ -185,7 +214,7 @@ namespace menu_ {
             cout << "1. Historial de versiones " << endl;
             cout << "2. Hacer commit " << endl;
             cout << "3. Duplicar " << endl;
-            cout << "4. Listar colaborador " << endl;
+            cout << "4. Listar colaboradores " << endl;
             cout << "5. Anyadir colaborador " << endl;
             cout << "6. Estadisticas " << endl;
             cout << "7. Esquema de archivos " << endl;
@@ -201,6 +230,7 @@ namespace menu_ {
             //Historial de versiones, muestra lista de todas las versiones del repositorio, mostrando la fecha y el autor del commit, el usuario
             //podrá seleccionar un commit para verlo con mayor nivel de detalle
             historialVersiones();
+            menuMisRepositorios();
         } else if (c == '2') {
             //Hacer commit: el sistema pedirá al usuario que seleccione qué archivos quiere incluir en el commit y realizará el commit
             hacerCommit();
@@ -209,11 +239,11 @@ namespace menu_ {
             //Duplicar: el sistema creará una copia del repositorio en el sistema de archivos del usuario, pidiendo antes al usuario que introduzca un nombre
             //que no esté en uso para dicho repositorio
             crearRepoDuplicado();
-            misRepositorios();
+            menuMisRepositorios();
         } else if (c == '4') {
             //Listar colaborador: muestra una lista con los diferentes colaboradores del repositorio
             listarColaborador();
-            misRepositorios();
+            menuMisRepositorios();
         } else if (c == '5') {
             //Añadir colaborador: se pide el nombre de un usuario y se añadirá a la lista de los colaboradores de dicho repositorio siempre y cuando
             //exista dicho usuario
@@ -244,6 +274,28 @@ namespace menu_ {
     }
 
     void historialVersiones() {
+        Repo *r = controlador::repoActual;
+        cout << "Historial de versiones del repositorio " << r->getNombre() << endl;
+        for(int i = 0; i < r->getCommits()->size(); i++) {
+            Commit *c = r->getCommits()->at(i);
+            cout << i << ". " << c->getDescripcion();
+            cout << " (de " << c->getAutor()->getNickname() << ")" << endl;
+        }
+        cout << r->getCommits()->size() << ". Atras" << endl;
+        int op;
+        do {
+            cout << "Elige una opcion: " << endl;
+            string res;
+            cin >> res;
+            op = stoi(res);
+        } while(op < 0 || op > r->getCommits()->size());
+        if(op < r->getCommits()->size()) {
+            controlador::commitActual = r->getCommits()->at(op);
+            menuHistorialVersiones();
+        }
+    }
+
+    void menuHistorialVersiones() {
         char c;
         do {
             cin.clear();
@@ -258,20 +310,34 @@ namespace menu_ {
 
         if (c == '1') {
             //Esquema de archivos: muestra un esquema en forma de árbol del workspace en el momento de realizar el commit
-            historialVersiones();
+            string ru = controlador::commitActual->getRuta();
+            char *r = new char[ru.size()+1];
+            aChar(r, ru);
+            mostrarArbolDirectorios(r, 0);
+            delete[] r;
+            menuHistorialVersiones();
         } else if (c == '2') {
             //Restaurar a esta versión: realiza un nuevo commit en el que se vuelve a la versión seleccionada
-            historialVersiones();
+            char *rr, *rc; //ruta repo, ruta commit
+            string rutaRepo = controlador::repoActual->getRuta();
+            rr = new char[rutaRepo.size()+1];
+            aChar(rr, rutaRepo);
+            borrarCarpeta(rr, 0);
+            crearCarpeta(rr);
+            string rutaCommit = controlador::commitActual->getRuta();
+            rc = new char[rutaCommit.size()+1];
+            aChar(rc, rutaCommit);
+            copiaCarpeta(rc,rr,0);
+            menuHistorialVersiones();
         } else if (c == '3') {
             //Atrás
-            misRepositorios();
+            menuMisRepositorios();
         } else {
             //Salir
             return;
         }
     }
 
-    //NOUVEAU
     void addColaborador() {
         cout << "Introduce el nombre de usuario del usuario que quieres hacer colaborador:"  << endl;
         string nick;

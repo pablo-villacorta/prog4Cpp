@@ -26,6 +26,7 @@ namespace controlador {
     vector<Usuario*> usuarios;
     vector<Repo*> repos;
     Repo *repoActual;
+    Commit *commitActual;
 }
 
 using namespace controlador;
@@ -33,16 +34,21 @@ using namespace controlador;
 int main() {
     cargarBD();
 
+    //Usuario *u = new Usuario("jope", "jope", "jope", "jope");
+    //Repo *r = new Repo("repaso", "akaka", "kaka", u);
+    //bbdd::registrarColaborador(u, r);
+
     menu_::inicio();
     return 0;
 }
 
-void crearNuevoRepo(string nombre, string descripcion, string ruta) {
+Repo* crearNuevoRepo(string nombre, string descripcion, string ruta) {
     Repo *r = new Repo(nombre, descripcion, ruta, usuarioActual);
     repos.push_back(r);
     usuarioActual->addRepoPropio(r);
     r->crearCarpetaCommits();
     bbdd::registrarRepositorio(nombre, descripcion, ruta, usuarioActual);
+    return r;
 }
 
 void aChar(char *dest, string origen) {

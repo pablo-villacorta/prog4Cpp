@@ -28,7 +28,9 @@ namespace menu_ {
 
     void opciones();
 
-    void addColaborador(); //NOUVEAU
+    void addColaborador();
+
+    void menuHistorialVersiones();
 }
 
 #endif //PROG4CPP_MENU_H

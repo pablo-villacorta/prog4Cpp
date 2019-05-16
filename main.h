@@ -10,6 +10,7 @@ namespace controlador {
     extern vector<Usuario*> usuarios;
     extern vector<Repo*> repos;
     extern Repo *repoActual;
+    extern Commit *commitActual;
 }
 
 void menu();
@@ -22,6 +23,6 @@ void aChar(char *dest, string origen);
 int getPosUltimaBarra(char *ruta);
 void getDirectorioPadre(char *dest, char *ruta);
 
-void crearNuevoRepo(string nombre, string descripcion, string ruta);
+Repo* crearNuevoRepo(string nombre, string descripcion, string ruta);
 
 #endif //PROG4CPP_MAIN_H

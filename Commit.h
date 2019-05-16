@@ -18,13 +18,16 @@ private:
     string descripcion;
     Usuario *autor;
     Repo *repo;
+    string ruta;
 public:
     Commit(string desc, int fecha, Usuario *autor, Repo *repo);
+    Commit(Commit *c, Repo *r);
     ~Commit();
     int getFecha() const;
     string getDescripcion() const;
     Usuario* getAutor() const;
     Repo* getRepo() const;
+    string getRuta() const;
 };
 
 
