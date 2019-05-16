@@ -152,6 +152,15 @@ namespace menu_ {
         controlador::repoActual->commit(desc);
     }
 
+    void crearRepoDuplicado(){
+        string nom;
+
+        cout << "Introduce el nombre del nuevo repositorio: " << endl;
+        cin >> nom;
+
+        crearNuevoRepo(nom, controlador::repoActual->getDescripcion(), controlador::repoActual->getRuta());
+    }
+
     void menuMisRepositorios() {
         char c;
         do {
@@ -183,6 +192,7 @@ namespace menu_ {
         } else if (c == '3') {
             //Duplicar: el sistema creará una copia del repositorio en el sistema de archivos del usuario, pidiendo antes al usuario que introduzca un nombre
             //que no esté en uso para dicho repositorio
+            crearRepoDuplicado();
             misRepositorios();
         } else if (c == '4') {
             //Listar colaborador: muestra una lista con los diferentes colaboradores del repositorio
