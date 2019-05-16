@@ -137,6 +137,15 @@ namespace menu_ {
         menuMisRepositorios();
     }
 
+    void hacerCommit(){
+        string desc;
+
+        cout << "Introduce una descripcion: " << endl;
+        cin >> desc;
+
+        controlador::repoActual->commit(desc);
+    }
+
     void menuMisRepositorios() {
         char c;
         do {
@@ -163,6 +172,7 @@ namespace menu_ {
             historialVersiones();
         } else if (c == '2') {
             //Hacer commit: el sistema pedirá al usuario que seleccione qué archivos quiere incluir en el commit y realizará el commit
+            hacerCommit();
             misRepositorios();
         } else if (c == '3') {
             //Duplicar: el sistema creará una copia del repositorio en el sistema de archivos del usuario, pidiendo antes al usuario que introduzca un nombre

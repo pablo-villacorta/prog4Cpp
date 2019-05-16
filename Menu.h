@@ -12,6 +12,8 @@ namespace menu_ {
 
     void nuevoRepo();
 
+    void hacerCommit();
+
     void menuMisRepositorios();
 
     void misRepositorios();
