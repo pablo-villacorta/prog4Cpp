@@ -169,6 +169,14 @@ namespace menu_ {
         copiaCarpeta(origen, origen, 0);
     }
 
+    void listarColaborador(){
+        vector<Usuario*> *colab = controlador::repoActual->getColabs();
+        for(int i = 0; i < controlador::repoActual->getColabs()->size(); i++){
+            cout << i+1 << ". ";
+            cout << ((controlador::repoActual->getColabs())->at(i))->getNickname() << endl;
+        }
+    }
+
     void menuMisRepositorios() {
         char c;
         do {
@@ -204,6 +212,7 @@ namespace menu_ {
             misRepositorios();
         } else if (c == '4') {
             //Listar colaborador: muestra una lista con los diferentes colaboradores del repositorio
+            listarColaborador();
             misRepositorios();
         } else if (c == '5') {
             //Añadir colaborador: se pide el nombre de un usuario y se añadirá a la lista de los colaboradores de dicho repositorio siempre y cuando

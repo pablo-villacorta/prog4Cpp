@@ -16,6 +16,8 @@ namespace menu_ {
 
     void crearRepoDuplicado();
 
+    void listarColaborador();
+
     void menuMisRepositorios();
 
     void misRepositorios();
