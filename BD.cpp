@@ -214,6 +214,16 @@ namespace bbdd {
         return false;
     }
 
+    //NOUVEAU
+    bool existeUsuario(string nick) {
+        for(int i = 0; i < controlador::usuarios.size(); i++) {
+            if(nick.compare(controlador::usuarios[i]->getNickname()) == 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     void cargarBD() {
         cargarUsuarios();
         cargarRepos();

@@ -8,8 +8,8 @@
 #include "main.h"
 
 extern "C"{
-    #include "manejo_archivos.h"
-    #include "graficos.h"
+#include "manejo_archivos.h"
+#include "graficos.h"
 }
 
 using namespace std;
@@ -27,14 +27,14 @@ namespace menu_ {
         //getline(cin, con);
         cin >> con;
 
-      if( bbdd::iniciarSesion(nom, con) == 0){
-          Usuario *u = bbdd::getUsuario(nom);
-          controlador::usuarioActual = u;
-          return true;
-      } else {
-          cout << "Los datos introducido no son correctos" << endl;
-          return false;
-      }
+        if( bbdd::iniciarSesion(nom, con) == 0){
+            Usuario *u = bbdd::getUsuario(nom);
+            controlador::usuarioActual = u;
+            return true;
+        } else {
+            cout << "Los datos introducido no son correctos" << endl;
+            return false;
+        }
     }
 
     bool registrar() {
@@ -190,15 +190,20 @@ namespace menu_ {
         } else if (c == '5') {
             //Añadir colaborador: se pide el nombre de un usuario y se añadirá a la lista de los colaboradores de dicho repositorio siempre y cuando
             //exista dicho usuario
-            misRepositorios();
+            addColaborador(); //NOUVEAU
+            menuMisRepositorios(); //NOUVEAU
         } else if (c == '6') {
             //Estadísticas: distintos datos y gráficos que permiten analizar la evolución y el estado actual del repositorio
             estadisticas();
         } else if (c == '7') {
             //Esquema de archivos: se mostrará un esquema de los archivos que componen el repositorio, en forma de árbol, de manera legible
             //para el usuario
-            mostrarArbolDirectorios("/Users/alvaro/eclipse-workspace2/proyectoMenu/prueba", 0);
-            misRepositorios();
+            //NOUVEAU
+            Repo *r = controlador::repoActual;
+            char *rut = new char[r->getRuta().size()+1];
+            aChar(rut, r->getRuta());
+            mostrarArbolDirectorios(rut, 0);
+            menuMisRepositorios();
         } else if (c == '8') {
             //Opciones
             opciones();
@@ -236,6 +241,34 @@ namespace menu_ {
         } else {
             //Salir
             return;
+        }
+    }
+
+    //NOUVEAU
+    void addColaborador() {
+        cout << "Introduce el nombre de usuario del usuario que quieres hacer colaborador:"  << endl;
+        string nick;
+        cin >> nick;
+        if(bbdd::existeUsuario(nick)) {
+            if(controlador::repoActual->getDuenyo()->getNickname().compare(nick) == 0) {
+                cout << "El usuario seleccionado es el duenyo del repositorio" << endl;
+            } else if(controlador::repoActual->esColaborador(nick)) {
+                cout << "El usuario seleccionado ya es colaborador en el repositorio" << endl;
+            } else {
+                Usuario *u = bbdd::getUsuario(nick);
+                controlador::repoActual->addColaborador(u);
+                bbdd::registrarColaborador(u, controlador::repoActual);
+            }
+        } else {
+            cout << "Error, el nombre de usuario introducido no coincide con el de ningún usuario" << endl;
+            cout << "Elige una opcion: " << endl;
+            cout << "1. Volver a intentarlo" << endl;
+            cout << "2. Atras" << endl;
+            string res;
+            cin >> res;
+            if(res.compare("1") == 0) {
+                addColaborador();
+            }
         }
     }
 

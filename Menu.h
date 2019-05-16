@@ -23,6 +23,8 @@ namespace menu_ {
     void estadisticas();
 
     void opciones();
+
+    void addColaborador(); //NOUVEAU
 }
 
 #endif //PROG4CPP_MENU_H
