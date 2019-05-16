@@ -13,6 +13,7 @@
 
 #define URL "C:/Users/pablo/Desktop/prog4_bd/hola"
 
+//comentario
 extern "C"{
     #include "manejo_archivos.h"
     #include "graficos.h"
@@ -30,6 +31,7 @@ using namespace controlador;
 
 int main() {
     cargarBD();
+
 
     return 0;
 }
