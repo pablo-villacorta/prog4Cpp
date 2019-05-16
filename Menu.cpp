@@ -64,18 +64,23 @@ namespace menu_ {
         string nombre, descripcion, ruta;
         cout << "Introduzca el nombre del repositorio: " << endl;
         cin >> nombre;
-        cout << "Introduzca la descripcion del repositorio: " << endl;
-        cin >> descripcion;
-        cout << "Introduzca la ruta: " << endl;
-        cin >> ruta;
-        crearNuevoRepo(nombre, descripcion, ruta);
-
+        if(bbdd::existeRepo(nombre)) {
+            cout << "Error, ya existe un repositorio con el mismo nombre" << endl;
+            gestionRepos();
+        } else {
+            cout << "Introduzca la descripcion del repositorio: " << endl;
+            cin >> descripcion;
+            cout << "Introduzca la ruta: " << endl;
+            cin >> ruta;
+            crearNuevoRepo(nombre, descripcion, ruta);
+            gestionRepos();
+        }
     }
 
     void gestionRepos() {
         char c;
         do {
-            cin.sync();
+            cin.clear();
             cout << "Selecciona una de las siguientes opciones: " << endl;
             cout << "1. Mis repositorios " << endl;
             cout << "2. Crear nuevo repositorio " << endl;
@@ -91,9 +96,7 @@ namespace menu_ {
             misRepositorios();
         } else if (c == '2') {
             //Crear nuevo repositorio: el usuario introducirá el nombre del repositorio y éste se añadirá a su lista de repositorios
-
             menu_::nuevoRepo();
-
         } else if (c == '3') {
             //Cierra sesión y vuelve al menú principal
             inicio();
@@ -110,9 +113,34 @@ namespace menu_ {
     void opciones();
 
     void misRepositorios() {
+        vector<Repo*> rep;
+        string n = controlador::usuarioActual->getNickname();
+        for(int i = 0; i < controlador::repos.size(); i++) {
+            Repo *r = controlador::repos[i];
+            if(r->getDuenyo()->getNickname().compare(n) == 0 || r->esColaborador(n)) {
+                rep.push_back(r);
+            }
+        }
+
+        int opcion = 0;
+        string res;
+        do {
+            cin.clear();
+            cout << "Elige un repositorio (introduce el numero correspondiente):" << endl;
+            for(int i = 0; i < rep.size(); i++) {
+                cout << i << ": " << rep[i]->getNombre() << " (de " << rep[i]->getDuenyo()->getNickname() << ")" << endl;
+            }
+            cin >> res;
+            opcion = stoi(res);
+        } while(opcion < 0 || opcion >= rep.size());
+        controlador::repoActual = rep[opcion];
+        menuMisRepositorios();
+    }
+
+    void menuMisRepositorios() {
         char c;
         do {
-            cin.sync();
+            cin.clear();
             cout << "Selecciona una de las siguientes opciones: " << endl;
             cout << "1. Historial de versiones " << endl;
             cout << "2. Hacer commit " << endl;
@@ -170,7 +198,7 @@ namespace menu_ {
     void historialVersiones() {
         char c;
         do {
-            cin.sync();
+            cin.clear();
             cout << "Selecciona una de las siguientes opciones: " << endl;
             cout << "1. Esquema de archivos " << endl;
             cout << "2. Restaurar a esta versión " << endl;
@@ -198,7 +226,7 @@ namespace menu_ {
     void estadisticas() {
         char c;
         do {
-            cin.sync();
+            cin.clear();
             cout << "Selecciona una de las siguientes opciones: " << endl;
             cout << "1. Commits/usuario" << endl;
             cout << "2. Evolución de un archivo" << endl;
@@ -268,7 +296,7 @@ namespace menu_ {
     void opciones() {
         char c;
         do {
-            cin.sync();
+            cin.clear();
             cout << "Selecciona una de las siguientes opciones: " << endl;
             cout << "1. Eliminar colaborador" << endl;
             cout << "2. Borrar repositorio" << endl;
@@ -298,7 +326,7 @@ namespace menu_ {
         char c;
 
         do {
-            cin.sync();
+            cin.clear();
             cout << "Selecciona una de las siguientes opciones: " << endl;
             cout << "1. Iniciar sesion" << endl;
             cout << "2. Registrarse" << endl;
@@ -324,14 +352,4 @@ namespace menu_ {
         }
     }
 }
-/*
-int main() {
-    //crearCarpeta("/Users/alvaro/eclipse-workspace2/proyectoMenu/a11");
-    copiaCarpeta("C:/Users/pablo/Desktop/prog4_bd/origen","C:/Users/pablo/Desktop/prog4_bd/destino", 0);
-    //copiarArchivo("/Users/alvaro/eclipse-workspace2/proyectoMenu/a/a.docx", "/Users/alvaro/eclipse-workspace2/proyectoMenu/src/a.docx");
-    //mostrarArbolDirectorios("/Users/alvaro/eclipse-workspace2/proyectoMenu/a11", 0);
-    //crearCarpeta("/Users/alvaro/eclipse-workspace2/proyectoMenu/a_commit");
-    inicio();
 
-    return 0;
-}*/

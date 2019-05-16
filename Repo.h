@@ -28,6 +28,8 @@ public:
     void addCommit(Commit *commit);
     vector<Commit*>* getCommits();
 
+    bool esColaborador(string nickname);
+
     void crearCarpetaCommits();
     //void getCarpetaRepo(char *b);
     string getCarpetaRepo();

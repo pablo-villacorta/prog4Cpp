@@ -12,6 +12,8 @@ namespace menu_ {
 
     void nuevoRepo();
 
+    void menuMisRepositorios();
+
     void misRepositorios();
 
     void historialVersiones();

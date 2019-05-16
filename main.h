@@ -9,6 +9,7 @@ namespace controlador {
     extern Usuario *usuarioActual;
     extern vector<Usuario*> usuarios;
     extern vector<Repo*> repos;
+    extern Repo *repoActual;
 }
 
 void menu();

@@ -99,3 +99,12 @@ void Repo::commit(string descripcion) {
     delete[] a;
     delete[] b;
 }
+
+bool Repo::esColaborador(string nickname) {
+    for(int i = 0; i < colabs.size(); i++) {
+        if(colabs[i]->getNickname().compare(nickname) == 0) {
+            return true;
+        }
+    }
+    return false;
+}

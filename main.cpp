@@ -25,6 +25,7 @@ namespace controlador {
     Usuario *usuarioActual;
     vector<Usuario*> usuarios;
     vector<Repo*> repos;
+    Repo *repoActual;
 }
 
 using namespace controlador;
