@@ -14,6 +14,7 @@ namespace bbdd {
 
     void cargarUsuarios(); //ok
     Usuario* getUsuario(string nick);
+    bool existeUsuario(string nick); //NOUVEAU
 
     int registrarRepositorio(string nombre, string desc, string ruta, Usuario *duenyo); //ok
     /*int existeRepositorio(char *nombre); //ok */
