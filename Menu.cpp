@@ -334,7 +334,7 @@ namespace menu_ {
             menuMisRepositorios();
         } else {
             //Salir
-            return;
+            exit(0);
         }
     }
 
@@ -475,26 +475,27 @@ namespace menu_ {
     }
 
     void inicio() {
-        char c;
-
+        string s;
+        int c;
         do {
             cin.clear();
             cout << "Selecciona una de las siguientes opciones: " << endl;
             cout << "1. Iniciar sesion" << endl;
             cout << "2. Registrarse" << endl;
             cout << "0. Salir" << endl;
-            cin.get(c);
-        } while (c != '1' && c != '2' && c != '0');
+            cin >> s;
 
-        if (c == '1') {
+            c = stoi(s);
+        } while (c != 1 && c != 2 && c != 0);
+
+        if (c == 1) {
             //Inicio de sesión: el usuario introduce su nombre de usuario y contraseña para ingresar en la alpicación
-            bool inicioExitoso = inicioSesion();
-            if (inicioExitoso == true) {
+            if (inicioSesion()) {
                 gestionRepos();
             } else {
                 inicio(); //Vueve al menú principal
             }
-        } else if (c == '2') {
+        } else if (c == 2) {
             //Registro de un nuevo usuario
             registrar();
             inicio();
@@ -580,6 +581,7 @@ namespace menu_ {
         if (dp == NULL) {
             //es archivo
             a->push_back(path);
+            cout << path << endl;
             return;
         }
 
