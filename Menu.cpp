@@ -110,8 +110,6 @@ namespace menu_ {
 
     void estadisticas();
 
-    void opciones();
-
     void misRepositorios() {
         vector<Repo*> rep;
         string n = controlador::usuarioActual->getNickname();
@@ -130,7 +128,7 @@ namespace menu_ {
             for(int i = 0; i < rep.size(); i++) {
                 cout << i << ": " << rep[i]->getNombre() << " (de " << rep[i]->getDuenyo()->getNickname() << ")" << endl;
             }
-            cout << rep.size() << ": Atras" << endl;
+            cout << rep.size() << ". Atras" << endl;
             cin >> res;
             opcion = stoi(res);
         } while(opcion < 0 || opcion >= rep.size() +1 );
@@ -218,13 +216,11 @@ namespace menu_ {
             cout << "5. Anyadir colaborador " << endl;
             cout << "6. Estadisticas " << endl;
             cout << "7. Esquema de archivos " << endl;
-            cout << "8. Opciones " << endl;
-            cout << "9. Atras " << endl;
+            cout << "8. Atras " << endl;
             cout << "0. Salir" << endl;
             cin.get();
             cin.get(c);
-        } while (c != '1' && c != '2' && c != '3' && c != '4' && c != '5' && c != '6' && c != '7' && c != '8' &&
-                 c != '9' && c != '0');
+        } while (c != '1' && c != '2' && c != '3' && c != '4' && c != '5' && c != '6' && c != '7' && c != '8' && c != '0');
 
         if (c == '1') {
             //Historial de versiones, muestra lista de todas las versiones del repositorio, mostrando la fecha y el autor del commit, el usuario
@@ -262,9 +258,6 @@ namespace menu_ {
             mostrarArbolDirectorios(rut, 0);
             menuMisRepositorios();
         } else if (c == '8') {
-            //Opciones
-            opciones();
-        } else if (c == '9') {
             //Atrás
             gestionRepos();
         } else {
@@ -353,7 +346,7 @@ namespace menu_ {
                 bbdd::registrarColaborador(u, controlador::repoActual);
             }
         } else {
-            cout << "Error, el nombre de usuario introducido no coincide con el de ningún usuario" << endl;
+            cout << "Error, el nombre de usuario introducido no coincide con el de ningun usuario" << endl;
             cout << "Elige una opcion: " << endl;
             cout << "1. Volver a intentarlo" << endl;
             cout << "2. Atras" << endl;
@@ -405,7 +398,7 @@ namespace menu_ {
             cout << "1. Commits/usuario" << endl;
             cout << "2. Evolución de un archivo" << endl;
             cout << "3. Visualizacion de commits a lo largo del tiempo" << endl;
-            cout << "4. Tamaño actual del proyecto" << endl;
+            cout << "4. Tamanyo actual del proyecto" << endl;
             cout << "5. Extensiones de los archivos" << endl;
             cout << "6. Atras" << endl;
             cout << "0. Salir" << endl;
@@ -430,7 +423,7 @@ namespace menu_ {
             string s = controlador::repoActual->getRuta();
             char *c = new char[(controlador::repoActual->getRuta()).size()+1];
             aChar(c, s);
-            cout << "Tamaño de la carpeta: " << tamanyoCarpeta(c, 0) << " bytes" << endl;
+            cout << "Tamanyo de la carpeta: " << tamanyoCarpeta(c, 0) << " bytes" << endl;
             estadisticas();
         } else if (c == '5') {
             //Extensiones de los archivos: gráfico de barras que muestra la frecuencia de las distintas extensiones de los archivos del repositorio
@@ -445,34 +438,6 @@ namespace menu_ {
         }
     }
 
-    void opciones() {
-        char c;
-        do {
-            cin.clear();
-            cout << "Selecciona una de las siguientes opciones: " << endl;
-            cout << "1. Eliminar colaborador" << endl;
-            cout << "2. Borrar repositorio" << endl;
-            cout << "3. Atras" << endl;
-            cout << "0. Salir" << endl;
-            cin.get(c);
-        } while (c != '1' && c != '2' && c != '3' && c != '0');
-
-        if (c == '1') {
-            //Eliminar colaborador: el sistema borrará al usuario introducido como colaborador del repositorio
-            opciones();
-        } else if (c == '2') {
-            //Borrar repositorio: el sistema borrará toda la información relativa al repositorio
-            borrarCarpeta("/Users/alvaro/eclipse-worksape2/proyectoMenu/borrar", 0);
-            cout << "Repositorio borrado correctamente." << endl;
-            opciones();
-        } else if (c == '3') {
-            //Atrás
-            misRepositorios();
-        } else {
-            //Salir
-            return;
-        }
-    }
 
     void inicio() {
         string s;

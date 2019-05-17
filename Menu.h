@@ -30,8 +30,6 @@ namespace menu_ {
 
     void estadisticas();
 
-    void opciones();
-
     void addColaborador();
 
     void menuHistorialVersiones();
