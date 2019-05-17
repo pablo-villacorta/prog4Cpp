@@ -33,6 +33,10 @@ using namespace controlador;
 
 int main() {
     cargarBD();
+    cout << "Bienvenido/a" << endl;
+    cout << "Para el correcto funcionamiento del programa, no se pueden incluir espacios en los nombres de capretas, " << endl;
+    cout << "archivos y cualquier tipo de informacion que se recoja por teclado en el programa." << endl;
+    cout << endl;
     menu_::inicio();
     return 0;
 }
