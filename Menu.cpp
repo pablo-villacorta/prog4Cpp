@@ -396,7 +396,7 @@ namespace menu_ {
             cin.clear();
             cout << "Selecciona una de las siguientes opciones: " << endl;
             cout << "1. Commits/usuario" << endl;
-            cout << "2. Evolución de un archivo" << endl;
+            cout << "2. Evolucion de un archivo" << endl;
             cout << "3. Visualizacion de commits a lo largo del tiempo" << endl;
             cout << "4. Tamanyo actual del proyecto" << endl;
             cout << "5. Extensiones de los archivos" << endl;
