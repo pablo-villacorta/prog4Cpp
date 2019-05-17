@@ -430,28 +430,11 @@ namespace menu_ {
             string s = controlador::repoActual->getRuta();
             char *c = new char[(controlador::repoActual->getRuta()).size()+1];
             aChar(c, s);
-
             cout << "Tamaño de la carpeta: " << tamanyoCarpeta(c, 0) << " bytes" << endl;
             estadisticas();
         } else if (c == '5') {
             //Extensiones de los archivos: gráfico de barras que muestra la frecuencia de las distintas extensiones de los archivos del repositorio
-            char **n = (char **) malloc(10 * sizeof(char *));
-            for (int i = 0; i < 10; i++) {
-                n[i] = (char *) malloc(10 * sizeof(char));
-            }
-
-            n[0] = "queso.java";
-            n[1] = "queso.png";
-            n[2] = "queso.avi";
-            n[3] = "queso.mp3";
-            n[4] = "queso.";
-            n[5] = "queso.jpg";
-            n[6] = "queso.avi";
-            n[7] = "queso.avi";
-            n[8] = "queso.jpg";
-            n[9] = "queso";
-
-            graficoExtensiones(n, 10);
+            statExtensiones();
             estadisticas();
         } else if (c == '6') {
             //Atrás
@@ -568,6 +551,49 @@ namespace menu_ {
         }
 
         graficoTamanyoArchivos(p, len, n);
+    }
+
+    //NOUVEAU
+    void statExtensiones() {
+        string p = controlador::repoActual->getRuta();
+        char *path = new char[p.size()+1];
+        aChar(path, p);
+
+        vector<char*> files;
+        listarArchivos(&files, path);
+
+
+        char **a = new char*[files.size()];
+        for(int i = 0; i < files.size(); i++) {
+            a[i] = files[i];
+        }
+
+        graficoExtensiones(a, files.size());
+    }
+
+    //NOUVEAU
+    void listarArchivos(vector<char*> *a, char *path) {
+        struct dirent *entry;
+        DIR *dp;
+
+        dp = opendir(path);
+        if (dp == NULL) {
+            //es archivo
+            a->push_back(path);
+            return;
+        }
+
+        while ((entry = readdir(dp))) {
+            if(strcmp(entry->d_name, ".") != 0 && strcmp(entry->d_name, "..") != 0) {
+                char *p = new char[strlen(path)+1];
+                strcpy(p, path);
+                strcat(p, "/");
+                strcat(p, entry->d_name);
+                listarArchivos(a, p);
+            }
+        }
+
+        closedir(dp);
     }
 }
 

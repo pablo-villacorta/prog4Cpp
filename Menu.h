@@ -1,6 +1,8 @@
 #ifndef PROG4CPP_MENU_H
 #define PROG4CPP_MENU_H
 
+#include <vector>
+
 namespace menu_ {
     void inicio();
 
@@ -37,6 +39,10 @@ namespace menu_ {
     void statEvolucionRepo(); //NOUVEAU
 
     void statEvolucionArchivo(); //NOUVEAU
+
+    void statExtensiones(); //NOUVEAU
+
+    void listarArchivos(std::vector<char*> *a, char *path); //NOUVEAU
 }
 
 #endif //PROG4CPP_MENU_H
