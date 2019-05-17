@@ -171,7 +171,12 @@ namespace bbdd {
     }
 
     int registrarUsuario(string nick, string nombre, string apellido, string contra) {
-        //TODO comprobar que no existe nickname
+        for(int i = 0; i < controlador::usuarios.size(); i++) {
+            if(nick.compare(controlador::usuarios[i]->getNickname()) == 0) {
+                return -1;
+            }
+        }
+
         ofstream t;
         t.open(T_USUARIO, ios::app);
         t << nick << "," << nombre << "," << apellido << "," << contra << "\n";
@@ -180,7 +185,12 @@ namespace bbdd {
     }
 
     int registrarRepositorio(string nombre, string desc, string ruta, Usuario *duenyo) {
-        //TODO comprobar que no existe mismo nombre
+        for(int i = 0; i < controlador::repos.size(); i++) {
+            if(nombre.compare(controlador::repos[i]->getNombre()) == 0) {
+                return -1;
+            }
+        }
+
         ofstream t;
         t.open(T_REPO, ios::app);
         t << nombre << "," << desc << "," << ruta << "," << duenyo->getNickname() << "\n";
