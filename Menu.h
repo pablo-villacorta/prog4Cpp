@@ -18,6 +18,8 @@ namespace menu_ {
 
     void listarColaborador();
 
+    void commitsUsuario();
+
     void menuMisRepositorios();
 
     void misRepositorios();

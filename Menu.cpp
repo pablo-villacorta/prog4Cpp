@@ -365,6 +365,38 @@ namespace menu_ {
         }
     }
 
+    void commitsUsuario(){
+        int len = (controlador::repoActual->getColabs()->size())+1;
+        string nombres[len];
+        if(len > 0){
+            for(int i = 0; i < len-1; i++){
+                nombres[i] = controlador::repoActual->getColabs()->at(i)->getNickname();
+            }
+        }
+        nombres[len-1] = controlador::repoActual->getDuenyo()->getNickname();
+
+        long int valores[len];
+        for(int i = 0; i < len; i++){
+            valores[i] = 0;
+        }
+
+        for(int i = 0; i < len; i++) {
+            for(int j = 0; j < controlador::repoActual->getCommits()->size(); j++){
+                if(controlador::repoActual->getCommits()->at(j)->getAutor()->getNickname() == nombres[i]){
+                    valores[i]++;
+                }
+            }
+        }
+
+        char *nom[len];
+        for(int i = 0; i < len; i++){
+            nom[i] = new char[nombres[i].size()+1];
+            aChar(nom[i], nombres[i]);
+        }
+
+        graficoBarras(nom, valores, len);
+    }
+
     void estadisticas() {
         char c;
         do {
@@ -383,6 +415,7 @@ namespace menu_ {
 
         if (c == '1') {
             //Commits/usuario: gráfico de barras que muestra la cantidad de commits realizados por cada usuario
+/* */       commitsUsuario();
             estadisticas();
         } else if (c == '2') {
             //Evolución de un archivo: gráfico que muestra la evolución del tamaño de un archivo a lo largo de las diferentes versiones
@@ -394,7 +427,11 @@ namespace menu_ {
             estadisticas(); //NOUVEAU
         } else if (c == '4') {
             //Tamaño actual del proyecto: en líneas y en bytes o derivados
-            cout << tamanyoCarpeta("/Users/alvaro/eclipse-workspace2/proyectoMenu/prueba", 0) << " bytes" << endl;
+            string s = controlador::repoActual->getRuta();
+            char *c = new char[(controlador::repoActual->getRuta()).size()+1];
+            aChar(c, s);
+
+            cout << "Tamaño de la carpeta: " << tamanyoCarpeta(c, 0) << " bytes" << endl;
             estadisticas();
         } else if (c == '5') {
             //Extensiones de los archivos: gráfico de barras que muestra la frecuencia de las distintas extensiones de los archivos del repositorio
