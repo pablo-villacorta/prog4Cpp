@@ -31,6 +31,10 @@ namespace menu_ {
     void addColaborador();
 
     void menuHistorialVersiones();
+
+    void statEvolucionRepo(); //NOUVEAU
+
+    void statEvolucionArchivo(); //NOUVEAU
 }
 
 #endif //PROG4CPP_MENU_H

@@ -386,22 +386,12 @@ namespace menu_ {
             estadisticas();
         } else if (c == '2') {
             //Evolución de un archivo: gráfico que muestra la evolución del tamaño de un archivo a lo largo de las diferentes versiones
-            char **m = (char **) malloc(10 * sizeof(char *));
-            for (int i = 0; i < 5; i++) {
-                m[i] = (char *) malloc(10 * sizeof(char));
-            }
-
-            m[0] = "/Users/alvaro/eclipse-workspace2/proyectoMenu/prueba/ver1.txt";
-            m[1] = "/Users/alvaro/eclipse-workspace2/proyectoMenu/prueba/ver2.txt";
-            m[2] = "/Users/alvaro/eclipse-workspace2/proyectoMenu/prueba/ver3.txt";
-            m[3] = "/Users/alvaro/eclipse-workspace2/proyectoMenu/prueba/ver4.txt";
-            m[4] = "/Users/alvaro/eclipse-workspace2/proyectoMenu/prueba/ver5.txt";
-
-            graficoTamanyoArchivos(m, 5, "Ver.txt");
-            estadisticas();
+            statEvolucionArchivo(); //NOUVEAU
+            estadisticas(); //NOUVEAU
         } else if (c == '3') {
             //Visualización de commits a lo largo del tiempo: gráfico que muestra la evolución del tamaño del repositorio a lo largo de las ditintas versiones
-            estadisticas();
+            statEvolucionRepo(); //NOUVEAU
+            estadisticas(); //NOUVEAU
         } else if (c == '4') {
             //Tamaño actual del proyecto: en líneas y en bytes o derivados
             cout << tamanyoCarpeta("/Users/alvaro/eclipse-workspace2/proyectoMenu/prueba", 0) << " bytes" << endl;
@@ -492,6 +482,55 @@ namespace menu_ {
             //Salir del programa
             return;
         }
+    }
+
+    //NOUVEAU
+    void statEvolucionRepo() {
+        char **pathsCarpetas;
+        char *nombres = new char[7];
+        strcpy(nombres, "commit");
+        int c;
+
+        Repo *repo = controlador::repoActual;
+        c = repo->getCommits()->size();
+        vector<string> paths;
+
+        for(int i = 0; i < c; i++) {
+            paths.push_back(repo->getCommits()->at(i)->getRuta());
+        }
+
+        //convertir vector<string> a char**
+        pathsCarpetas = new char*[c];
+        for(int i = 0; i < c; i++) {
+            pathsCarpetas[i] = new char[paths[i].size()+1];
+            aChar(pathsCarpetas[i], paths[i]);
+        }
+
+        graficoTamanyoCarpeta(pathsCarpetas, c, nombres);
+    }
+
+    //NOUVEAU
+    void statEvolucionArchivo() {
+        string nom;
+        cout << "Introduce la ruta relativa del archivo del que quieres realizar el seguimiento: " << endl;
+        cin >> nom;
+
+        Repo *r = controlador::repoActual;
+
+        char *n = new char[nom.size()+1];
+        aChar(n, nom);
+        int len = r->getCommits()->size();
+        char **p = new char*[len];
+        for(int i = 0; i < len; i++) {
+            Commit *c = r->getCommits()->at(i);
+            string a = c->getRuta();
+            a.append("/");
+            a.append(nom);
+            p[i] = new char[a.size()+1];
+            aChar(p[i], a);
+        }
+
+        graficoTamanyoArchivos(p, len, n);
     }
 }
 
