@@ -297,8 +297,8 @@ namespace menu_ {
             cin.clear();
             cout << "Selecciona una de las siguientes opciones: " << endl;
             cout << "1. Esquema de archivos " << endl;
-            cout << "2. Restaurar a esta versión " << endl;
-            cout << "3. Atrás " << endl;
+            cout << "2. Restaurar a esta version " << endl;
+            cout << "3. Atras " << endl;
             cout << "0. Salir" << endl;
             cin.get();
             cin.get(c);
@@ -327,7 +327,7 @@ namespace menu_ {
             menuHistorialVersiones();
         } else if (c == '3') {
             //Atrás
-            menuMisRepositorios();
+            misRepositorios();
         } else {
             //Salir
             exit(0);

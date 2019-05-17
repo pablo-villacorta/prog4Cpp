@@ -185,12 +185,6 @@ namespace bbdd {
     }
 
     int registrarRepositorio(string nombre, string desc, string ruta, Usuario *duenyo) {
-        for(int i = 0; i < controlador::repos.size(); i++) {
-            if(nombre.compare(controlador::repos[i]->getNombre()) == 0) {
-                return -1;
-            }
-        }
-
         ofstream t;
         t.open(T_REPO, ios::app);
         t << nombre << "," << desc << "," << ruta << "," << duenyo->getNickname() << "\n";
