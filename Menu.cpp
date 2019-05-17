@@ -259,7 +259,7 @@ namespace menu_ {
             menuMisRepositorios();
         } else if (c == '8') {
             //Atrás
-            gestionRepos();
+            misRepositorios();
         } else {
             //Salir
             return;
@@ -431,7 +431,7 @@ namespace menu_ {
             estadisticas();
         } else if (c == '6') {
             //Atrás
-            misRepositorios();
+            menuMisRepositorios();
         } else {
             //Salir
             return;
