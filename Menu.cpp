@@ -101,6 +101,9 @@ namespace menu_ {
             menu_::nuevoRepo();
         } else if (c == '3') {
             //Cierra sesión y vuelve al menú principal
+            controlador::usuarioActual = 0;
+            controlador::repoActual = 0;
+            controlador::commitActual = 0;
             inicio();
         } else {
             //Salir
