@@ -246,15 +246,14 @@ namespace menu_ {
         } else if (c == '5') {
             //Añadir colaborador: se pide el nombre de un usuario y se añadirá a la lista de los colaboradores de dicho repositorio siempre y cuando
             //exista dicho usuario
-            addColaborador(); //NOUVEAU
-            menuMisRepositorios(); //NOUVEAU
+            addColaborador();
+            menuMisRepositorios();
         } else if (c == '6') {
             //Estadísticas: distintos datos y gráficos que permiten analizar la evolución y el estado actual del repositorio
             estadisticas();
         } else if (c == '7') {
             //Esquema de archivos: se mostrará un esquema de los archivos que componen el repositorio, en forma de árbol, de manera legible
             //para el usuario
-            //NOUVEAU
             Repo *r = controlador::repoActual;
             char *rut = new char[r->getRuta().size()+1];
             aChar(rut, r->getRuta());
@@ -522,7 +521,6 @@ namespace menu_ {
         graficoTamanyoArchivos(p, len, n);
     }
 
-    //NOUVEAU
     void statExtensiones() {
         string p = controlador::repoActual->getRuta();
         char *path = new char[p.size()+1];
@@ -530,7 +528,7 @@ namespace menu_ {
 
         vector<char*> files;
         listarArchivos(&files, path);
-
+        cout << "sale" << endl;
 
         char **a = new char*[files.size()];
         for(int i = 0; i < files.size(); i++) {
@@ -540,7 +538,6 @@ namespace menu_ {
         graficoExtensiones(a, files.size());
     }
 
-    //NOUVEAU
     void listarArchivos(vector<char*> *a, char *path) {
         struct dirent *entry;
         DIR *dp;
@@ -549,9 +546,10 @@ namespace menu_ {
         if (dp == NULL) {
             //es archivo
             a->push_back(path);
-            cout << path << endl;
+            cout << path << " es archivo" << endl;
             return;
         }
+        cout << path << " es carpeta" << endl;
 
         while ((entry = readdir(dp))) {
             if(strcmp(entry->d_name, ".") != 0 && strcmp(entry->d_name, "..") != 0) {

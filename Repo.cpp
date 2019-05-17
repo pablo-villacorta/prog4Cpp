@@ -63,8 +63,9 @@ string Repo::getCarpetaRepo() {
     aChar(r, ruta);
     int p = getPosUltimaBarra(r);
     string s = ruta.substr(0, p);
-    string n("/repo");
+    string n("/repo_");
     s.append(n);
+    s.append(this->getNombre());
     return s;
 }
 
