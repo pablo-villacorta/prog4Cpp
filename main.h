@@ -22,6 +22,7 @@ int copiaCarpeta(char *directorioOrigen, char *directorioDestino, const int root
 void aChar(char *dest, string origen);
 int getPosUltimaBarra(char *ruta);
 void getDirectorioPadre(char *dest, char *ruta);
+void liberarMemoria();
 
 Repo* crearNuevoRepo(string nombre, string descripcion, string ruta);
 

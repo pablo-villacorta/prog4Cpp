@@ -31,11 +31,26 @@ using namespace controlador;
 int main() {
     cargarBD();
     cout << "Bienvenido/a" << endl;
-    cout << "Para el correcto funcionamiento del programa, no se pueden incluir espacios en los nombres de capretas, " << endl;
+    cout << "Para el correcto funcionamiento del programa, no se pueden incluir espacios ni comas en los nombres de carpetas, " << endl;
     cout << "archivos y cualquier tipo de informacion que se recoja por teclado en el programa." << endl;
     cout << endl;
     menu_::inicio();
+    liberarMemoria();
     return 0;
+}
+
+void liberarMemoria() {
+    for(int i = 0; i < repos.size(); i++) {
+        Repo *r = repos[i];
+        for(int j = 0; j < r->getCommits()->size(); j++) {
+            delete r->getCommits()->at(j);
+        }
+        delete r;
+    }
+
+    for(int i = 0; i < usuarios.size(); i++) {
+        delete usuarios[i];
+    }
 }
 
 Repo* crearNuevoRepo(string nombre, string descripcion, string ruta) {
@@ -99,9 +114,6 @@ int copiaCarpeta(char *directorioOrigen, char *directorioDestino, const int root
                 pathDest[i] = NULL;
             }
 
-            //strcat(pathDest, directorioOrigen);
-            //strcat(pathDest, "_commit");
-            //crearCarpeta(pathDest);
             strcpy(pathDest, directorioDestino);
             strcat(pathDest, "/");
             strcat(pathDest, dp->d_name);

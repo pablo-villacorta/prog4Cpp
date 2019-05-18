@@ -31,8 +31,7 @@ Commit::Commit(Commit *c, Repo *r) {
 }
 
 Commit::~Commit() {
-    delete autor;
-    delete repo;
+
 }
 
 string Commit::getDescripcion() const {

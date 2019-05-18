@@ -19,9 +19,9 @@ extern "C"{
 using namespace std;
 
 namespace menu_ {
-/*
- * Devuelve true si el inicio de sesión está bien hecho
- * */
+    /**
+    * Devuelve true si el inicio de sesión está bien hecho
+    **/
     bool inicioSesion() {
         string nom, con;
         cout << "Nombre de usuario: " << endl; //Conseguir nombre de usuario y comprobar en la BD
@@ -42,7 +42,6 @@ namespace menu_ {
     }
 
     bool registrar() {
-        //string nick, string nombre, string apellido, string contra
         string nomUsuario, nombre, apellido, contra;
         cout << "Introduzca su nombre: " << endl;
         cin >> nombre;

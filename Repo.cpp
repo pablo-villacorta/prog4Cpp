@@ -23,7 +23,7 @@ Repo::Repo(string nombre, string desc, string ruta, Usuario *duenyo) {
 }
 
 Repo::~Repo() {
-    delete duenyo;
+
 }
 
 string Repo::getNombre() const {
