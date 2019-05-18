@@ -33,6 +33,7 @@ int main() {
     cout << "Bienvenido/a" << endl;
     cout << "Para el correcto funcionamiento del programa, no se pueden incluir espacios ni comas en los nombres de carpetas, " << endl;
     cout << "archivos y cualquier tipo de informacion que se recoja por teclado en el programa." << endl;
+    cout << "Para introducir las rutas, utiliza el caracter '/' para separar los directorios." << endl;
     cout << endl;
     menu_::inicio();
     liberarMemoria();

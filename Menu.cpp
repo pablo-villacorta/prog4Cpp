@@ -481,7 +481,7 @@ namespace menu_ {
             statEvolucionRepo(); //NOUVEAU
             estadisticas(); //NOUVEAU
         } else if (c == '4') {
-            //Tamaño actual del proyecto: en líneas y en bytes o derivados
+            //Tamaño actual del proyecto
             string s = controlador::repoActual->getRuta();
             char *c = new char[(controlador::repoActual->getRuta()).size()+1];
             aChar(c, s);
