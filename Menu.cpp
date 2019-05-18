@@ -72,6 +72,7 @@ namespace menu_ {
             cout << "Nombre de usuario no valido" << endl;
             return false;
         }
+
     }
 
     void nuevoRepo(){
@@ -242,6 +243,11 @@ namespace menu_ {
         aChar(rO, repoOriginal);
         aChar(rD, repoDestino);
         copiaCarpeta(rO, rD, 0);
+
+        delete[] r;
+        delete[] a;
+        delete[] rO;
+        delete[] rD;
     }
 
     void listarColaborador(){
@@ -307,6 +313,7 @@ namespace menu_ {
             aChar(rut, r->getRuta());
             mostrarArbolDirectorios(rut, 0);
             menuMisRepositorios();
+            delete[] rut;
         } else if (c == '8') {
             //Atrás
             misRepositorios();
@@ -372,6 +379,8 @@ namespace menu_ {
             aChar(rc, rutaCommit);
             copiaCarpeta(rc,rr,0);
             menuHistorialVersiones();
+            delete[] rr;
+            delete[] rc;
         } else if (c == '3') {
             //Atrás
             misRepositorios();
@@ -438,6 +447,9 @@ namespace menu_ {
         }
 
         graficoBarras(nom, valores, len);
+        for(int i = 0; i < len; i++){
+            delete[] nom[i];
+        }
     }
 
     void estadisticas() {
@@ -475,6 +487,7 @@ namespace menu_ {
             aChar(c, s);
             cout << "Tamanyo de la carpeta: " << tamanyoCarpeta(c, 0) << " bytes" << endl;
             estadisticas();
+            delete[] c;
         } else if (c == '5') {
             //Extensiones de los archivos: gráfico de barras que muestra la frecuencia de las distintas extensiones de los archivos del repositorio
             statExtensiones();
@@ -548,6 +561,8 @@ namespace menu_ {
         }
 
         graficoTamanyoCarpeta(pathsCarpetas, c, nombres);
+        delete[] pathsCarpetas;
+        delete[] nombres;
     }
 
     //NOUVEAU
@@ -578,6 +593,8 @@ namespace menu_ {
         }
 
         graficoTamanyoArchivos(p, len, n);
+        delete[] n;
+        delete[] p;
     }
 
     void statExtensiones() {
@@ -594,6 +611,8 @@ namespace menu_ {
         }
 
         graficoExtensiones(a, files.size());
+        delete[] path;
+        delete[] a;
     }
 
     int is_regular_file(const char *path)
