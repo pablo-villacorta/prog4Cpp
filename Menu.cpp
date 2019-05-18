@@ -7,6 +7,9 @@
 #include "BD.h"
 #include "main.h"
 #include <sstream>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 extern "C"{
 #include "manejo_archivos.h"
@@ -50,6 +53,17 @@ namespace menu_ {
         cout << "Introduzca su contrasenya: " << endl;
         cin >> contra;
 
+        string coma(",");
+        bool filtro = nombre.find(coma) == string::npos;
+        filtro = filtro && apellido.find(coma) == string::npos;
+        filtro = filtro && nomUsuario.find(coma) == string::npos;
+        filtro = filtro && contra.find(coma) == string::npos;
+
+        if(!filtro) {
+            cout << "Error, ninguno de los campos introducidos puede contener el caracter de coma (',')" << endl;
+            return false;
+        }
+
         //cout << bbdd::registrarUsuario(nomUsuario, nombre, apellido, contra) << endl;
         if(bbdd::registrarUsuario(nomUsuario, nombre, apellido, contra) == 0){
             Usuario *u = new Usuario(nomUsuario, nombre, apellido, contra);
@@ -73,6 +87,18 @@ namespace menu_ {
             cin >> descripcion;
             cout << "Introduzca la ruta: " << endl;
             cin >> ruta;
+
+            string coma(",");
+            bool filtro = nombre.find(coma) == string::npos;
+            filtro = filtro && descripcion.find(coma) == string::npos;
+            filtro = filtro && ruta.find(coma) == string::npos;
+
+            if(!filtro) {
+                cout << "Error, ninguno de los campos introducidos puede contener el caracter de coma (',')" << endl;
+                gestionRepos();
+                return;
+            }
+
             crearNuevoRepo(nombre, descripcion, ruta);
             cout << "Repositorio creado" << endl;
             gestionRepos();
@@ -149,6 +175,12 @@ namespace menu_ {
         cout << "Introduce una descripcion: " << endl;
         cin >> desc;
 
+        string coma(",");
+        if(desc.find(coma) == string::npos) {
+            cout << "Error, el campo introducido no puede contener el caracter de coma (',')" << endl;
+            return;
+        }
+
         controlador::repoActual->commit(desc);
     }
 
@@ -159,6 +191,20 @@ namespace menu_ {
         cin >> nom;
         cout << "Introduce la ruta donde quieres que se guarde el repositorio duplicado: " << endl;
         cin >> ruta;
+
+        string coma(",");
+        bool filtro = nom.find(coma) == string::npos;
+        filtro = filtro && ruta.find(coma) == string::npos;
+
+        if(!filtro) {
+            cout << "Error, ninguno de los campos introducidos puede contener el caracter de coma (',')" << endl;
+            return;
+        }
+
+        if(bbdd::existeRepo(nom)) {
+            cout << "Error, ya existe un repositorio con ese nombre" << endl;
+            return;
+        }
 
         string fin;
         char *r = new char[controlador::repoActual->getRuta().size()+1];
@@ -204,6 +250,9 @@ namespace menu_ {
         for(int i = 0; i < controlador::repoActual->getColabs()->size(); i++){
             cout << i+1 << ". ";
             cout << ((controlador::repoActual->getColabs())->at(i))->getNickname() << endl;
+        }
+        if(colab->size() == 0) {
+            cout << "Este repositorio no tiene ningun colaborador" << endl;
         }
     }
 
@@ -483,6 +532,11 @@ namespace menu_ {
         c = repo->getCommits()->size();
         vector<string> paths;
 
+        if(c == 0) {
+            cout << "Este repositorio no tiene ningun commit registrado" << endl;
+            return;
+        }
+
         for(int i = 0; i < c; i++) {
             paths.push_back(repo->getCommits()->at(i)->getRuta());
         }
@@ -508,6 +562,12 @@ namespace menu_ {
         char *n = new char[nom.size()+1];
         aChar(n, nom);
         int len = r->getCommits()->size();
+
+        if(len == 0) {
+            cout << "Este repositorio no tiene ningun commit registrado" << endl;
+            return;
+        }
+
         char **p = new char*[len];
         for(int i = 0; i < len; i++) {
             Commit *c = r->getCommits()->at(i);
@@ -528,7 +588,6 @@ namespace menu_ {
 
         vector<char*> files;
         listarArchivos(&files, path);
-        cout << "sale" << endl;
 
         char **a = new char*[files.size()];
         for(int i = 0; i < files.size(); i++) {
@@ -538,26 +597,35 @@ namespace menu_ {
         graficoExtensiones(a, files.size());
     }
 
+    int is_regular_file(const char *path)
+    {
+        struct stat path_stat;
+        stat(path, &path_stat);
+        return S_ISREG(path_stat.st_mode);
+    }
+
     void listarArchivos(vector<char*> *a, char *path) {
         struct dirent *entry;
         DIR *dp;
 
-        dp = opendir(path);
-        if (dp == NULL) {
-            //es archivo
+        if(is_regular_file(path)) {
             a->push_back(path);
-            cout << path << " es archivo" << endl;
             return;
         }
-        cout << path << " es carpeta" << endl;
+
+        dp = opendir(path);
+        if (dp == NULL) {
+            return;
+        }
 
         while ((entry = readdir(dp))) {
             if(strcmp(entry->d_name, ".") != 0 && strcmp(entry->d_name, "..") != 0) {
-                char *p = new char[strlen(path)+1];
-                strcpy(p, path);
-                strcat(p, "/");
-                strcat(p, entry->d_name);
-                listarArchivos(a, p);
+                string p(path);
+                p.append("/");
+                p.append(string(entry->d_name));
+                char *b = new char[p.size()+1];
+                aChar(b, p);
+                listarArchivos(a, b);
             }
         }
 

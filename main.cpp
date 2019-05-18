@@ -11,9 +11,6 @@
 #include <stdlib.h>
 #include "Menu.h"
 
-#define URL "C:/Users/pablo/Desktop/prog4_bd/hola"
-//#define URL "/Users/alvaro/Desktop/prog4/hola"
-
 extern "C"{
     #include "manejo_archivos.h"
     #include "graficos.h"
