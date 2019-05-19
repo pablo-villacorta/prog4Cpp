@@ -176,7 +176,7 @@ namespace menu_ {
         cin >> desc;
 
         string coma(",");
-        if(desc.find(coma) == string::npos) {
+        if(desc.find(coma) != string::npos) {
             cout << "Error, el campo introducido no puede contener el caracter de coma (',')" << endl;
             return;
         }
